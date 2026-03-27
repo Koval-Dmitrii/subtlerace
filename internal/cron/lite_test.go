@@ -11,9 +11,9 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCronFiresDeterministically(t *testing.T) {
+func TestLiteCronFiresDeterministically(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		c := New()
+		c := newCronForTest()
 
 		next := func() time.Duration {
 			return 1 * time.Second
@@ -53,9 +53,9 @@ func TestCronFiresDeterministically(t *testing.T) {
 	})
 }
 
-func TestCronStopsAfterCancel(t *testing.T) {
+func TestLiteCronStopsAfterCancel(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		c := New()
+		c := newCronForTest()
 		next := func() time.Duration {
 			return 1 * time.Second
 		}
@@ -98,9 +98,9 @@ func TestCronStopsAfterCancel(t *testing.T) {
 	})
 }
 
-func TestCronZeroDuration(t *testing.T) {
+func TestLiteCronZeroDuration(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		c := New()
+		c := newCronForTest()
 
 		var n atomic.Int64
 		next := func() time.Duration {
@@ -142,9 +142,9 @@ func TestCronZeroDuration(t *testing.T) {
 	})
 }
 
-func TestContextAlreadyCancelled(t *testing.T) {
+func TestLiteContextAlreadyCancelled(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		c := New()
+		c := newCronForTest()
 
 		next := func() time.Duration {
 			return 0
@@ -176,7 +176,7 @@ func TestContextAlreadyCancelled(t *testing.T) {
 	})
 }
 
-func TestNoInternalState(t *testing.T) {
+func TestLiteNoInternalState(t *testing.T) {
 	const size = unsafe.Sizeof(*New())
 	require.Zero(t, size)
 }

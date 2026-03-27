@@ -14,10 +14,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestStressCronZeroDuration(t *testing.T) {
+func TestHardStressCronZeroDuration(t *testing.T) {
 	for range 100_000 {
 		synctest.Test(t, func(t *testing.T) {
-			c := New()
+			c := newCronForTest()
 
 			var n atomic.Int64
 			next := func() time.Duration {
@@ -56,9 +56,9 @@ func TestStressCronZeroDuration(t *testing.T) {
 	}
 }
 
-func TestNumGoroutines(t *testing.T) {
+func TestHardNumGoroutines(t *testing.T) {
 	for range 100 {
-		c := New()
+		c := newCronForTest()
 
 		block := make(chan struct{})
 		unblock := make(chan struct{})
